@@ -6,8 +6,9 @@ class IndexController extends GlobalController {
         /* Initialize action controller here */
     }
 
-    public function indexAction() {
-        // action body
+    public function indexAction() {         
+        $model = new Model_appModel();        
+        $model->test();
     }
 
 }
