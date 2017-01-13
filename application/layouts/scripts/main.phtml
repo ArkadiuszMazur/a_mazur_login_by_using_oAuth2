@@ -4,19 +4,24 @@
         <meta name="viewport"    content="width=device-width, initial-scale=1.0" />
         <link rel="Shortcut icon" href="/images/favicon.ico" />
         <title>Arkadiusz Mazur</title> 
-        <?php
-            $cssFiles = $this->headLink()->appendStylesheet('vendor/bootstrap/css/bootstrap.min.css') 
-                    ->headLink()->appendStylesheet('vendor/bootstrap/css/fonts.css') //custom fonts
-                    ->headLink()->appendStylesheet('vendor/font-awesome/css/font-awesome.min.css')
-                    ->headLink()->appendStylesheet('css/creative.min.css'); //theme               
+        <?php            
+            if($_SERVER['SERVER_NAME'] == 'localhost') {
+                $baseUrl = 'http://localhost/a_mazur_task_recruitment/public/';                
+            } else {
+                $baseUrl = 'http://oauth2.nx.media.pl/public/';                
+            }            
+            $cssFiles = $this->headLink()->appendStylesheet($baseUrl.'vendor/bootstrap/css/bootstrap.min.css') 
+                    ->headLink()->appendStylesheet($baseUrl.'vendor/bootstrap/css/fonts.css') //custom fonts
+                    ->headLink()->appendStylesheet($baseUrl.'vendor/font-awesome/css/font-awesome.min.css')
+                    ->headLink()->appendStylesheet($baseUrl.'css/creative.min.css'); //theme               
 
             echo $cssFiles;
 
-            $jsFiles = $this->headScript()->prependFile('js/creative.min.js') //theme
-                            ->headScript()->prependFile('vendor/scrollreveal/scrollreveal.min.js') //plugin
-                            ->headScript()->prependFile('vendor/jquery/jquery-easing.min.js') //plugin
-                            ->headScript()->prependFile('vendor/bootstrap/js/bootstrap.min.js') //bootstrap core
-                            ->headScript()->prependFile('vendor/jquery/jquery.min.js'); //jquery                                                                                                                
+            $jsFiles = $this->headScript()->prependFile($baseUrl.'js/creative.min.js') //theme
+                            ->headScript()->prependFile($baseUrl.'vendor/scrollreveal/scrollreveal.min.js') //plugin
+                            ->headScript()->prependFile($baseUrl.'vendor/jquery/jquery-easing.min.js') //plugin
+                            ->headScript()->prependFile($baseUrl.'vendor/bootstrap/js/bootstrap.min.js') //bootstrap core
+                            ->headScript()->prependFile($baseUrl.'vendor/jquery/jquery.min.js'); //jquery                                                                                                                
             echo $jsFiles;
         ?>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
