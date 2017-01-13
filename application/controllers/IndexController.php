@@ -14,15 +14,18 @@ class IndexController extends GlobalController {
          * Identyfikator projektu będzie mieć wartość amazur-155511
          * 
          * Identyfikator klienta:
-         * 689383590563-fr0gsklufm984eom1451g33ou7fdn448.apps.googleusercontent.com
+         * 628300487987-i3l234emnhsml1e15ueqmm2349me6oad.apps.googleusercontent.com
          * 
          * Tajny klucz klienta:
-         * Zux_BXaN1AbZBGMnCbI8bykH
+         * zM80nyB_AxahePWtPyYcYj2X
          */
     }
 
     
     public function signinAction() {
+        $model = new Model_googleapiModel();
+        exit(var_dump($model));
+        
         
     }
 }
