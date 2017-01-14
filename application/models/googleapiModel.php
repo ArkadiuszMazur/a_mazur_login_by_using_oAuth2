@@ -15,12 +15,16 @@ class Model_googleapiModel extends Zend_Db_Table_Abstract {
         $this->_clientId = $this->_config->google->clientId;
         $this->_secretKey = $this->_config->google->secretKey;
         $this->_apiUserData = $this->_config->google->apiUserData;       
+        $this->_accountUrl = $this->_config->google->accountUrl;       
         parent::__construct();
     }
 
-    public function retrieveData() {        
-        
-        $token = $this->_getToken($this->_apiUserData);
+    /**
+     * Method receiving data
+     * @return string
+     */
+    public function retrieveData() {                
+        $token = $this->_getToken();
         if (!$token) {
             return;
         }
@@ -31,12 +35,11 @@ class Model_googleapiModel extends Zend_Db_Table_Abstract {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
         curl_close($curl);
-
         return $response;
     }    
     
     /**
-     * 
+     * Method return url to google account
      * @param type $uniqueId - unique Id used to verification of proper communication
      * @param string $scope - service type
      * @return string
@@ -51,8 +54,11 @@ class Model_googleapiModel extends Zend_Db_Table_Abstract {
         );
     }
 
-    protected function _getToken($apiUserInfo) {
-
+    /**
+     * Return token     
+     * @return string
+     */
+    protected function _getToken() {
         $params = sprintf(
                 "code=%s&client_id=%s&client_secret=%s&redirect_uri=%s&grant_type=authorization_code", 
                 $_GET['code'], 
@@ -62,19 +68,15 @@ class Model_googleapiModel extends Zend_Db_Table_Abstract {
         );
 
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'https://accounts.google.com/o/oauth2/token');
+        curl_setopt($curl, CURLOPT_URL, $this->_accountUrl);
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $response = json_decode(curl_exec($curl), true);
         curl_close($curl);
 
-        if (!isset($response['access_token'])) {
-            return;
-        }
-
-        //setcookie('GOOGLE_ACCESS_TOKEN_' . md5($apiUserInfo), $response['access_token'], time() + $response['expires_in'], '/', $_SERVER['SERVER_NAME']);
-        return $response['access_token'];
+        return isset($response['access_token']) ? $response['access_token'] : null;
+        
     }
 
 
