@@ -6,13 +6,11 @@
  */
 class GlobalController extends Zend_Controller_Action {
 
+    protected $_sess;
+    
     public function init() {
-        /* Initialize action controller here */
-        
-        exit(var_dump($this->getOptions()));
-      $config = new Zend_Config($this->getOptions(), true);
-//    Zend_Registry::set('config', $config);
-//    return $config;        
+        //$this->_sess = new Zend_Session_Namespace('authenticate');
+        //$this->_sess = new Zend_Session_Namespace();        
     }
 
     public function indexAction() {        

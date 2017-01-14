@@ -2,30 +2,20 @@
 
 class IndexController extends GlobalController {
 
-    public function init() {
-        /* Initialize action controller here */
+    public function init() {        
+        parent::init();
     }
 
     public function indexAction() {
         $model = new Model_appModel();
-        //$model->test();
-
-        /**
-         * Identyfikator projektu będzie mieć wartość amazur-155511
-         * 
-         * Identyfikator klienta:
-         * 628300487987-i3l234emnhsml1e15ueqmm2349me6oad.apps.googleusercontent.com
-         * 
-         * Tajny klucz klienta:
-         * zM80nyB_AxahePWtPyYcYj2X
-         */
     }
 
-    public function signinAction() {
-        $model = new Model_googleapiModel();
-
+    public function signinAction() {         
+        $ds = DIRECTORY_SEPARATOR;
+        $config = new Zend_Config_Ini(APPLICATION_PATH . $ds . 'configs' . $ds . 'application.ini', 'production');                       
+        $googleconfigCurrentDomain = $config->google->configCurrentDomain;
         // Tutaj ustawiamy przekierowanie powrotne, na które Google zwróci dane
-        $oGoogle_API = new Google_API('http://oauth2.nx.media.pl/signin.php');
+        $oGoogle_API = new Model_googleapiModel($googleconfigCurrentDomain);
 
         if (!isset($_GET['code']) OR ! isset($_GET['state'])) {
             $dialog = $oGoogle_API->Dialog('email');
@@ -46,7 +36,7 @@ class IndexController extends GlobalController {
         }
 
         // Wyświetlamy adres e-mail użytkownika, który dokonał autoryzacji.
-        echo $graph['email'];
+        exit(var_dump($graph['email']));
     }
 
 }
