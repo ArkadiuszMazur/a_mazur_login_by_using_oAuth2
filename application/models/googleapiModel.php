@@ -72,18 +72,18 @@ class Model_googleapiModel extends Zend_Db_Table_Abstract {
         return $response['access_token'];
     }
 
-    public function Get($scope = null) {
-        $access_token = $this->GetAccessToken($scope);
+    public function Get($apiUserInfo = null) {
+        $access_token = $this->GetAccessToken($apiUserInfo);
         if (empty($access_token)) {
             return array();
         }
 
-        $oCURL = curl_init();
-        curl_setopt($oCURL, CURLOPT_URL, $scope);
-        curl_setopt($oCURL, CURLOPT_HTTPHEADER, array('Authorization: OAuth ' . $access_token));
-        curl_setopt($oCURL, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($oCURL);
-        curl_close($oCURL);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $apiUserInfo);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: OAuth ' . $access_token));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        curl_close($curl);
 
         return $response;
     }

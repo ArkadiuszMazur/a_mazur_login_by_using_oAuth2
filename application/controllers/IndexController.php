@@ -15,10 +15,10 @@ class IndexController extends GlobalController {
         $config = new Zend_Config_Ini(APPLICATION_PATH . $ds . 'configs' . $ds . 'application.ini', 'production');                       
         $googleconfigCurrentDomain = $config->google->configCurrentDomain;
         // Tutaj ustawiamy przekierowanie powrotne, na które Google zwróci dane
-        $oGoogle_API = new Model_googleapiModel($googleconfigCurrentDomain);
-
+        $oGoogle_API = new Model_googleapiModel($googleconfigCurrentDomain);       
+        
         if (!isset($_GET['code']) OR ! isset($_GET['state'])) {
-            $dialog = $oGoogle_API->Dialog('email');
+            $dialog = $oGoogle_API->Dialog('email');            
             Header('Location: ' . $dialog);
             exit;
         }
