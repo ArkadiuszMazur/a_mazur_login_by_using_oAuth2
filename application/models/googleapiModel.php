@@ -1,30 +1,45 @@
-<?php
-
-    define('GOOGLE_CLIENT_ID', '998109724266-las7l0jib3t6juftu3usn1ohevp2e2bm.apps.googleusercontent.com');
-    define('GOOGLE_CLIENT_SECRET', 'M53DvCMofwt97xESzNcO9OX3');
-    define('CONFIG_CURRENT_DOMAIN', 'http://oauth2.nx.media.pl/signin.php');
+<?php   
 
 class Model_googleapiModel extends Zend_Db_Table_Abstract {
 
+    protected $_config;
+    protected $_redirectUri;
+    protected $_clientId;
+    protected $_secretKey;
+    
+    //am_t usunąć
     public function test() {
-        exit(var_dump('Test in appModel passed :)'));
+        $ds = DIRECTORY_SEPARATOR;
+        $config = new Zend_Config_Ini(APPLICATION_PATH . $ds . 'configs' . $ds . 'application.ini', 'production');                
+        $googleClientId = $config->google->clientId;
+        $googleSecretKey = $config->google->secretKey;
+        $googleconfigCurrentDomain = $config->google->configCurrentDomain;
+        exit(var_dump($googleClientId));        
+        
     }
 
-    public function __construct($redirect_uri = null) {
-        $this->redirect_uri = urlencode($redirect_uri);
-        $this->client_id = GOOGLE_CLIENT_ID;
-        $this->client_secret = GOOGLE_CLIENT_SECRET;
+    public function __construct($redirectUri = null) {
+        $ds = DIRECTORY_SEPARATOR;
+        $this->_config = new Zend_Config_Ini(APPLICATION_PATH . $ds . 'configs' . $ds . 'application.ini', 'production');        
+        $this->_redirectUri = urlencode($redirectUri);
+        $this->_clientId = $this->_config->google->clientId;
+        $this->_secretKey = $this->_config->google->secretKey;
         parent::__construct();
     }
 
     public function Dialog($scope = null) {
         $state = uniqid();
         if (isset($_COOKIE['google_access_state'])) {
-            setcookie('google_access_state', null, time() - 3600, '/', '.' . CONFIG_CURRENT_DOMAIN);
+            setcookie('google_access_state', null, time() - 3600, '/', '.' . $this->_config->google->configCurrentDomain);
         }
-        setcookie('google_access_state', $state, time() + 3600, '/', '.' . CONFIG_CURRENT_DOMAIN);
+        setcookie('google_access_state', $state, time() + 3600, '/', '.' . $this->_config->google->configCurrentDomain);
 
-        return sprintf("https://accounts.google.com/o/oauth2/auth?client_id=%s&scope=%s&redirect_uri=%s&state=%s&response_type=code", $this->client_id, $scope, $this->redirect_uri, $state
+        return sprintf(
+                "https://accounts.google.com/o/oauth2/auth?client_id=%s&scope=%s&redirect_uri=%s&state=%s&response_type=code", 
+                $this->_clientId, 
+                $scope, 
+                $this->_redirectUri, 
+                $state
         );
     }
 
@@ -33,16 +48,21 @@ class Model_googleapiModel extends Zend_Db_Table_Abstract {
             return $_COOKIE['GOOGLE_ACCESS_TOKEN_' . md5($scope)];
         }
 
-        $params = sprintf("code=%s&client_id=%s&client_secret=%s&redirect_uri=%s&grant_type=authorization_code", $_GET['code'], $this->client_id, $this->client_secret, $this->redirect_uri
+        $params = sprintf(
+                "code=%s&client_id=%s&client_secret=%s&redirect_uri=%s&grant_type=authorization_code", 
+                $_GET['code'], 
+                $this->_clientId, 
+                $this->_secretKey, 
+                $this->_redirectUri
         );
 
-        $oCURL = curl_init();
-        curl_setopt($oCURL, CURLOPT_URL, 'https://accounts.google.com/o/oauth2/token');
-        curl_setopt($oCURL, CURLOPT_POST, 1);
-        curl_setopt($oCURL, CURLOPT_POSTFIELDS, $params);
-        curl_setopt($oCURL, CURLOPT_RETURNTRANSFER, 1);
-        $response = json_decode(curl_exec($oCURL), true);
-        curl_close($oCURL);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, 'https://accounts.google.com/o/oauth2/token');
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $response = json_decode(curl_exec($curl), true);
+        curl_close($curl);
 
         if (!isset($response['access_token'])) {
             return 0;
