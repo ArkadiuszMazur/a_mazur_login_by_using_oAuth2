@@ -13,31 +13,39 @@ class IndexController extends GlobalController {
     public function signinAction() {         
         $ds = DIRECTORY_SEPARATOR;
         $config = new Zend_Config_Ini(APPLICATION_PATH . $ds . 'configs' . $ds . 'application.ini', 'production');                       
-        $googleconfigCurrentDomain = $config->google->configCurrentDomain;
-        // Tutaj ustawiamy przekierowanie powrotne, na które Google zwróci dane
-        $oGoogle_API = new Model_googleapiModel($googleconfigCurrentDomain);       
+        $googleConfigCurrentDomain = $config->google->configCurrentDomain;                 
+        $model = new Model_googleapiModel($googleConfigCurrentDomain);       
         
-        if (!isset($_GET['code']) OR ! isset($_GET['state'])) {
-            $dialog = $oGoogle_API->Dialog('email');            
-            Header('Location: ' . $dialog);
-            exit;
+        $getState = $this->_getParam('state');   
+        $getCode = $this->_getParam('code');   
+        
+        if (!$getCode || !$getState) {
+            $this->_sess->uniqueId = uniqid();           
+            $accountsUrl = $model->getAccountsUrl($this->_sess->uniqueId, 'email');                        
+            $this->_helper->redirector->gotoUrl($accountsUrl);            
         }
-
-        $google_access_state = empty($_COOKIE['google_access_state']) ? 0 : $_COOKIE['google_access_state'];
-        if ($_GET['state'] !== $google_access_state) {
-            // tutaj np. przekierowanie, jeżeli dane są błędne
+            
+        if($getState != $this->_sess->uniqueId) {
+            //am_t
+            //Obsługa błędu
         }
+                
+        $response = $model->retrieveData();        
+        if(is_array($response) && empty($response)) {
+            //Zrobić przekierowanie na główną z błedem, że nie przyszła odpowiedź
+        }
+        
+        $response = json_decode($response, true);
 
-        $graph = $oGoogle_API->Get('https://www.googleapis.com/oauth2/v3/userinfo');
-        exit(var_dump($graph));
-        $graph = json_decode($graph, true);
-
-        if (!isset($graph['email'])) {
+        $accountEmail = isset($response['email']) ? $response['email'] : null;
+        if (!$accountEmail) {
             // tutaj np. przekierowanie, jeżeli nie udało się pobrać danych konta Google
         }
 
         // Wyświetlamy adres e-mail użytkownika, który dokonał autoryzacji.
-        exit(var_dump($graph['email']));
+        exit(var_dump($response['email']));
     }
+    
+    
 
 }

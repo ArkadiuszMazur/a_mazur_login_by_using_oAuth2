@@ -54,14 +54,14 @@ class Zend_Validate_IdenticalTest extends PHPUnit_Framework_TestCase
 
     public function testTokenInitiallyNull()
     {
-        $this->assertNull($this->validator->getToken());
+        $this->assertNull($this->validator->_getToken());
     }
 
     public function testCanSetToken()
     {
         $this->testTokenInitiallyNull();
         $this->validator->setToken('foo');
-        $this->assertEquals('foo', $this->validator->getToken());
+        $this->assertEquals('foo', $this->validator->_getToken());
     }
 
     public function testCanSetTokenViaConstructor()
