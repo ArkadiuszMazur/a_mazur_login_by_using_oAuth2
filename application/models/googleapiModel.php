@@ -28,25 +28,25 @@ class Model_googleapiModel extends Zend_Db_Table_Abstract {
     }
 
     public function Dialog($scope = null) {
-        $state = uniqid();
+        $uniqueId = uniqid();
         if (isset($_COOKIE['google_access_state'])) {
             setcookie('google_access_state', null, time() - 3600, '/', '.' . $this->_config->google->configCurrentDomain);
         }
-        setcookie('google_access_state', $state, time() + 3600, '/', '.' . $this->_config->google->configCurrentDomain);
+        setcookie('google_access_state', $uniqueId, time() + 3600, '/', '.' . $this->_config->google->configCurrentDomain);
 
         return sprintf(
                 "https://accounts.google.com/o/oauth2/auth?client_id=%s&scope=%s&redirect_uri=%s&state=%s&response_type=code", 
                 $this->_clientId, 
                 $scope, 
                 $this->_redirectUri, 
-                $state
+                $uniqueId
         );
     }
 
-    public function GetAccessToken($scope) {
-        if ($this->IsAccessToken($scope) === true) {
-            return $_COOKIE['GOOGLE_ACCESS_TOKEN_' . md5($scope)];
-        }
+    public function GetAccessToken($apiUserInfo) {
+//        if ($this->IsAccessToken($apiUserInfo) === true) {
+//            return $_COOKIE['GOOGLE_ACCESS_TOKEN_' . md5($apiUserInfo)];
+//        }
 
         $params = sprintf(
                 "code=%s&client_id=%s&client_secret=%s&redirect_uri=%s&grant_type=authorization_code", 
@@ -68,7 +68,7 @@ class Model_googleapiModel extends Zend_Db_Table_Abstract {
             return 0;
         }
 
-        setcookie('GOOGLE_ACCESS_TOKEN_' . md5($scope), $response['access_token'], time() + $response['expires_in'], '/', $_SERVER['SERVER_NAME']);
+        setcookie('GOOGLE_ACCESS_TOKEN_' . md5($apiUserInfo), $response['access_token'], time() + $response['expires_in'], '/', $_SERVER['SERVER_NAME']);
         return $response['access_token'];
     }
 
@@ -88,12 +88,12 @@ class Model_googleapiModel extends Zend_Db_Table_Abstract {
         return $response;
     }
 
-    public function IsAccessToken($scope = null) {
-        if (isset($_COOKIE['GOOGLE_ACCESS_TOKEN_' . md5($scope)])) {
-            return true;
-        }
-
-        return false;
-    }
+//    public function IsAccessToken($scope = null) {
+//        if (isset($_COOKIE['GOOGLE_ACCESS_TOKEN_' . md5($scope)])) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
 }

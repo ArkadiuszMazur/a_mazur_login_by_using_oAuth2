@@ -29,6 +29,7 @@ class IndexController extends GlobalController {
         }
 
         $graph = $oGoogle_API->Get('https://www.googleapis.com/oauth2/v3/userinfo');
+        exit(var_dump($graph));
         $graph = json_decode($graph, true);
 
         if (!isset($graph['email'])) {
