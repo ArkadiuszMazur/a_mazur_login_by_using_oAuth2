@@ -13,7 +13,9 @@
 
             echo $cssFiles;
 
-            $jsFiles = $this->headScript()->prependFile($baseUrl.'js/creative.min.js') //theme
+            $jsFiles = $this
+                            //->headScript()->prependFile($baseUrl.'js/creative.min.js') //theme
+                            ->headScript()->prependFile($baseUrl.'js/app.js') //my script
                             ->headScript()->prependFile($baseUrl.'vendor/scrollreveal/scrollreveal.min.js') //plugin
                             ->headScript()->prependFile($baseUrl.'vendor/jquery/jquery-easing.min.js') //plugin
                             ->headScript()->prependFile($baseUrl.'vendor/bootstrap/js/bootstrap.min.js') //bootstrap core

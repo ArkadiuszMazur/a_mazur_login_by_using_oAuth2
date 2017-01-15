@@ -10,7 +10,7 @@ class AppController extends GlobalController {
         parent::init();
     }
 
-    public function indexAction() {        
+    public function getitemsAction() {        
 //        if (!$this->_sess->logged) {
 //            $this->_helper->redirector->gotoUrl('/signin');
 //        }
