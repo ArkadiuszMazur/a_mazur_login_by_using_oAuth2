@@ -7,10 +7,14 @@
 class GlobalController extends Zend_Controller_Action {
 
     protected $_sess;
+    protected $_flashMessenger;
     
     public function init() {
-        $this->_sess = new Zend_Session_Namespace('authenticate');                                         
-        
+        $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');        
+        /**
+         * Verification whether the user is logged
+         */
+        $this->_sess = new Zend_Session_Namespace('authenticate');                                                         
         if(!$this->_sess->logged && !$this->_sess->loginProcessing) {
             $this->_sess->loginProcessing = true;
             $this->_helper->redirector->gotoUrl('signin');              

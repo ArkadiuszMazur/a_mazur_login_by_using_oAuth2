@@ -7,10 +7,10 @@ class IndexController extends GlobalController {
     }
 
     public function indexAction() {
-        $model = new Model_appModel();
+        $model = new Model_appModel();                    
     }
 
-    public function signinAction() {   
+    public function signinAction() {           
         if($this->_sess->logged) {
             $this->_helper->redirector->gotoUrl('/');  
         }                
@@ -32,19 +32,18 @@ class IndexController extends GlobalController {
         }
         
         /**
-         * If communication problem occured
+         * If communication with API problem occured
          */
-        if($getState != $this->_sess->uniqueId) {
-            //am_t
-            //Obsługa błędu
+        if($getState != $this->_sess->uniqueId) {                        
+            $this->_helper->redirector->gotoUrl('/communication_error');
         }
                 
         $response = $model->retrieveData();    
         /**
          * No response case 
          */
-        if(is_array($response) && empty($response)) {
-            //Zrobić przekierowanie na główną z błedem, że nie przyszła odpowiedź
+        if(is_array($response) && empty($response)) { //am_t przywrócić i usunąć poniższe                
+            $this->_helper->redirector->gotoUrl('/response_error');
         }
         
         $response = json_decode($response, true);
@@ -64,8 +63,15 @@ class IndexController extends GlobalController {
         
         exit(var_dump($config->authorizedUser));
         // Wyświetlamy adres e-mail użytkownika, który dokonał autoryzacji.
-        exit(var_dump($accountEmail));
+        exit(var_dump($accountEmail));        
+                
     }
         
+    /**
+     * After the action, before view is rendering.
+     */
+    public function postDispatch() {
+        $this->view->messages = $this->_flashMessenger->getMessages();
+    }
 
 }
