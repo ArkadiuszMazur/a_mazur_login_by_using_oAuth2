@@ -7,6 +7,9 @@ class IndexController extends GlobalController {
     }
 
     public function indexAction() {
+        if(!$this->_sess->logged) {
+            $this->_helper->redirector->gotoUrl('/signin'); 
+        }
         $model = new Model_appModel();                    
     }
 
@@ -59,12 +62,20 @@ class IndexController extends GlobalController {
         if(trim($config->authorizedUser) == $accountEmail) {
             $this->_sess->logged = true;
             $this->_sess->loginProcessing = false;
-        }
-        
-        exit(var_dump($config->authorizedUser));
-        // Wyświetlamy adres e-mail użytkownika, który dokonał autoryzacji.
-        exit(var_dump($accountEmail));        
-                
+            $this->_flashMessenger->addMessage('You have been logged');
+            $this->_helper->redirector->gotoUrl('/'); 
+        }                         
+    }
+    
+    /*
+     * Here you can log out from application.
+     * But if you want to really be logged out, you should also logged out from google account,
+     * because the signinAction will automaticaly check your log in to google account.
+     */
+    public function logoutAction() {
+        $this->_sess->logged = false;
+        $this->_sess->loginProcessing = false;        
+        $this->_helper->redirector->gotoUrl('/'); 
     }
         
     /**
