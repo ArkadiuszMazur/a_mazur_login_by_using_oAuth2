@@ -21,10 +21,11 @@ $(document).ready(function () {
         });
     }
 
-    classGlobal.prototype.removeItem = function () {
-        alert('remove');
+    classGlobal.prototype.removeItem = function (id) {        
+        
+        alert(id);
         $.ajax({
-            url: "/app/getitems",
+            url: "/app/getitems/remove/id/"+id, 
             context: document.body
         }).done(function (response) {
             var res = $.parseJSON(response);
@@ -43,8 +44,9 @@ $(document).ready(function () {
     var objGlobal = new classGlobal();
     objGlobal.getList();   
 
-    $('body').delegate('.removeItem', 'click', function () {        
-        objGlobal.removeItem();
+    $('body').delegate('.removeItem', 'click', function () {    
+        var id = $(this).attr('removeId');        
+        objGlobal.removeItem(id);
     });
 
 })
