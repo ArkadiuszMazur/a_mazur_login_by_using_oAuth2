@@ -62,7 +62,7 @@ class IndexController extends GlobalController {
         if(trim($config->authorizedUser) == $accountEmail) {
             $this->_sess->logged = true;
             $this->_sess->loginProcessing = false;
-            $this->_flashMessenger->addMessage('You have been logged');
+            $this->_flashMessenger->addMessage('You have been logged!');
             $this->_helper->redirector->gotoUrl('/'); 
         }                         
     }
@@ -74,7 +74,7 @@ class IndexController extends GlobalController {
      */
     public function logoutAction() {
         $this->_sess->logged = false;
-        $this->_sess->loginProcessing = false;        
+        $this->_sess->loginProcessing = false;            
         $this->_helper->redirector->gotoUrl('/'); 
     }
         
