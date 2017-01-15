@@ -3,7 +3,7 @@ $(document).ready(function () {
     var classGlobal = function () {
     };
 
-    classGlobal.prototype.getList = function () {
+    classGlobal.prototype.getList = function () {        
         $.ajax({
             url: "/app/getitems",
             context: document.body
@@ -21,23 +21,12 @@ $(document).ready(function () {
         });
     }
 
-    classGlobal.prototype.removeItem = function (id) {        
-        
-        alert(id);
+    classGlobal.prototype.removeItem = function (id) {                        
         $.ajax({
-            url: "/app/getitems/remove/id/"+id, 
+            url: "/app/remove/id/"+id, 
             context: document.body
-        }).done(function (response) {
-            var res = $.parseJSON(response);
-            console.log(res);
-            //var arr = [];
-            var items = '<table>';
-            for (var i in res) {
-                var pos = res[i];
-                items += '<tr><td>'+res[i]+'</td><td>  <img src="/public/img/remove.png" alt="Remove Item" class="removeItem" removeId="'+i+'"/></td></tr>';
-            }
-            items += '</table>';
-            $('#itemsList').html(items);
+        }).done(function (response) {            
+            objGlobal.getList();
         });
     }
 
