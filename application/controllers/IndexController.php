@@ -78,7 +78,7 @@ class IndexController extends GlobalController {
     public function logoutAction() {
         $this->_sess->logged = false;
         $this->_sess->loginProcessing = false;
-        unset($this->_sess->account);
+        unset($this->_sess->account);        
         $this->_helper->redirector->gotoUrl('/');
     }
 

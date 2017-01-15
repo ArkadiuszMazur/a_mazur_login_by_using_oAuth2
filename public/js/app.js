@@ -51,5 +51,9 @@ $(document).ready(function () {
         item = item.replace(/[\<\>\\\\/]/, '|');
         objGlobal.addItem(item);
     });
+    
+    $('#logout').click(function(){
+        alert('You must first logout from your google account !');
+    })
 
 })
