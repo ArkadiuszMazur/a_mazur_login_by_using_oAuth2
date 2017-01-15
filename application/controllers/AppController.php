@@ -45,6 +45,7 @@ class AppController extends GlobalController {
 
     public function insertAction() {
         $item = $this->_getParam('item');
+        $item = htmlspecialchars($item); //Anty XSS injection
         $this->_model = new Model_itemsModel();
         $lastId = $this->_model->insert(array('item' => $item));
         exit($lastId);

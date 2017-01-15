@@ -7,9 +7,10 @@
         <?php  
             $baseUrl = '/public/';            
             $cssFiles = $this->headLink()->appendStylesheet($baseUrl.'vendor/bootstrap/css/bootstrap.min.css') 
-                    ->headLink()->appendStylesheet($baseUrl.'vendor/bootstrap/css/fonts.css') //custom fonts
+                    ->headLink()->appendStylesheet($baseUrl.'vendor/bootstrap/css/fonts.css') //custom fonts                    
                     ->headLink()->appendStylesheet($baseUrl.'vendor/font-awesome/css/font-awesome.min.css')
-                    ->headLink()->appendStylesheet($baseUrl.'css/creative.min.css'); //theme               
+                    ->headLink()->appendStylesheet($baseUrl.'css/creative.min.css') //theme               
+                    ->headLink()->appendStylesheet($baseUrl.'css/app.css');
 
             echo $cssFiles;
 

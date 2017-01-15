@@ -1,0 +1,23 @@
+.button {
+    background-color: #fff;
+    border: 1px solid #bbbbbb;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    -moz-box-shadow: 2px 2px 3px #cccccc;
+    -webkit-box-shadow: 2px 2px 3px #cccccc;
+    box-shadow: 5px 5px 3px #cccccc;
+    text-decoration: none;
+    color: #3d3d3d;
+    font-family: Calibri, Verdana, Arial, sans-serif;
+    font-size: 12px;
+    outline: none;
+    padding: 3px 10px;    
+    margin-bottom:20px;
+}
+
+.setCenter {
+    margin: auto;
+    width: 100%;    
+    padding: 0px;
+}

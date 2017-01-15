@@ -8,9 +8,7 @@ $(document).ready(function () {
             url: "/app/getitems",
             context: document.body
         }).done(function (response) {
-            var res = $.parseJSON(response);
-            console.log(res);
-            //var arr = [];
+            var res = $.parseJSON(response);                        
             var items = '<table>';
             for (var i in res) {
                 var pos = res[i];
@@ -49,7 +47,8 @@ $(document).ready(function () {
 
 
     $('#buttonAdd').bind('click', function () {
-        var item = $('#add').val();
+        var item = $('#add').val();                
+        item = item.replace(/[\<\>\\\\/]/, '|');        
         objGlobal.addItem(item);
     });    
 
