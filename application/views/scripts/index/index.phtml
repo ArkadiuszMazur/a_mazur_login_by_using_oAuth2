@@ -2,7 +2,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">At Your Service</h2>
+                    <h2 class="section-heading">Please add or remove items</h2>
                     <hr class="primary">
                 </div>
             </div>
@@ -11,25 +11,25 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
+                        <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+                        <h3>Add item</h3>
+                        <p class="text-muted">Add new item to your personal list and hit `Enter`</p><input type="text" id="add" />
+                    </div>
+                </div>                
+<!--                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
                         <i class="fa fa-4x fa-paper-plane text-primary sr-icons"></i>
-                        <h3>Ready to Ship</h3>
+                        <h3>Remove item</h3>
                         <p class="text-muted">You can use this theme as is, or you can make changes!</p>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
-                        <h3>Up to Date</h3>
-                        <p class="text-muted">We update dependencies to keep things fresh.</p>
-                    </div>
-                </div>
+                </div>-->
             </div>
         </div>
-    </section>
-    
+    </section>    
     <aside class="bg-dark">
         <div class="container text-center">
             <div class="call-to-action">
+                <?php var_dump($this->items); ?>
                 <h2>Free Download at Start Bootstrap!</h2>
                 <a href="http://startbootstrap.com/template-overviews/creative/" class="btn btn-default btn-xl sr-button">Download Now!</a>
             </div>

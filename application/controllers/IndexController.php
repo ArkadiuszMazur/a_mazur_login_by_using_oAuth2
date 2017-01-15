@@ -9,8 +9,7 @@ class IndexController extends GlobalController {
     public function indexAction() {
         if (!$this->_sess->logged) {
             $this->_helper->redirector->gotoUrl('/signin');
-        }
-        $model = new Model_appModel();
+        }        
     }
 
     public function signinAction() {
@@ -90,4 +89,11 @@ class IndexController extends GlobalController {
         $this->view->messages = $this->_flashMessenger->getMessages();
     }
 
+    public function __call($name, $arguments) {        
+        $this->_flashMessenger->addMessage('You have entered an invalid url');
+        $this->_helper->redirector->gotoUrl('/');
+    }
+    
+    
 }
+
