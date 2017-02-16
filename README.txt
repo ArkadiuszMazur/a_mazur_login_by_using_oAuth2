@@ -3,6 +3,9 @@ email:
 arkadiusz.mazur@hotmail.com
 skype:
 programista.php.sql
+repo:
+https://github.com/ArkadiuszMazur/a_mazur_task_recruitment
+https://github.com/ArkadiuszMazur/a_mazur_task_recruitment/compare/master@%7B1day%7D...master
 
 Instructions to the application (ENGLISH)
 
@@ -14,10 +17,10 @@ Zend provides for SQL Injection.
 application/configs/database_queries.txt
 - To log protocol is used OAuth2.
 To log on you have to use an account gmail:
-login:
-amazur.edukey
-password:
-nx.media.pl
+	login:
+	amazur.edukey
+	password:
+	nx.media.pl
 It is not possible to log in via another account.
 Path to class to login by gmail:
 application\models\googleapiModel.php
